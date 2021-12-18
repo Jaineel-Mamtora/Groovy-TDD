@@ -31,14 +31,22 @@ class PlaylistFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_playlist, container, false)
 
         setupViewModel()
+        observeLoader()
+        observePlaylists(view)
 
+        return view
+    }
+
+    private fun observeLoader() {
         viewModel.loader.observe(this as LifecycleOwner, { loading ->
             when (loading) {
                 true -> loader.visibility = View.VISIBLE
                 else -> loader.visibility = View.GONE
             }
         })
+    }
 
+    private fun observePlaylists(view: View) {
         viewModel.playlists.observe(this as LifecycleOwner, { playlists ->
             if (playlists.getOrNull() != null) {
                 setupList(view.playlists_list, playlists.getOrNull()!!)
@@ -46,8 +54,6 @@ class PlaylistFragment : Fragment() {
                 TODO()
             }
         })
-
-        return view
     }
 
     private fun setupList(
@@ -72,7 +78,6 @@ class PlaylistFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() =
-            PlaylistFragment().apply {}
+        fun newInstance() = PlaylistFragment()
     }
 }
