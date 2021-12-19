@@ -5,6 +5,7 @@ import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.trailblazing.groovy.utils.BaseUnitTest
+import com.trailblazing.groovy.utils.captureValues
 import com.trailblazing.groovy.utils.getValueForTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
@@ -41,6 +42,17 @@ class PlaylistDetailsViewModelShould : BaseUnitTest() {
         mockFailureCase()
 
         assertEquals(exception, viewModel.playlistDetails.getValueForTest()!!.exceptionOrNull())
+    }
+
+    @Test
+    fun showSpinnerWhileLoading() = runBlockingTest {
+        mockSuccessfulCase()
+
+        viewModel.loader.captureValues {
+            viewModel.playlistDetails.getValueForTest()
+            assertEquals(true, values[0])
+        }
+
     }
 
     private suspend fun mockSuccessfulCase() {

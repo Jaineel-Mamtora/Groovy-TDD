@@ -11,9 +11,11 @@ class PlaylistDetailsViewModel(
 ) : ViewModel() {
 
     val playlistDetails: MutableLiveData<Result<PlaylistDetails>> = MutableLiveData()
+    val loader = MutableLiveData<Boolean>()
 
     fun getPlaylistDetails(id: String) {
         viewModelScope.launch {
+            loader.postValue(true)
             service.fetchPlaylistDetails(id)
                 .collect {
                     playlistDetails.postValue(it)

@@ -8,6 +8,18 @@
     android:orientation="vertical"
     tools:context=".details.PlaylistDetailsFragment">
 
+    <ProgressBar
+        android:id="@+id/details_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:minWidth="40dp"
+        android:minHeight="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/playlist_name"
@@ -16,7 +28,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Playlist Title"
         android:textColor="@color/design_default_color_primary"
         android:textSize="22sp"
         android:textStyle="bold"
