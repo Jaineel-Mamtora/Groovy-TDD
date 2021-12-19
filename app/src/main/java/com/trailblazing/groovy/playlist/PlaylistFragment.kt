@@ -10,10 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.trailblazing.groovy.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_playlist.*
 import kotlinx.android.synthetic.main.fragment_playlist.view.*
+import kotlinx.android.synthetic.main.fragment_playlist_detail.*
 import javax.inject.Inject
 
 @AndroidEntryPoint

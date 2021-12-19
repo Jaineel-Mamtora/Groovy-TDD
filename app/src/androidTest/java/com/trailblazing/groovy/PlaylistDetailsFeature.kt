@@ -6,6 +6,8 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
+import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertNotExist
 import com.trailblazing.groovy.playlist.idlingResource
 import org.hamcrest.CoreMatchers
 import org.junit.Test
@@ -13,9 +15,9 @@ import org.junit.Test
 class PlaylistDetailsFeature : BaseUITest() {
 
     @Test
-    fun displayPlaylistNameAndDetails() {
+    fun displaysPlaylistNameAndDetails() {
 
-        navigateToPlaylistDetails()
+        navigateToPlaylistDetails(0)
 
         assertDisplayed("Hard Rock Cafe")
 
@@ -23,19 +25,43 @@ class PlaylistDetailsFeature : BaseUITest() {
     }
 
     @Test
-    fun displayLoaderWhileFetchingThePlaylistDetails() {
-        navigateToPlaylistDetails()
-
+    fun displaysLoaderWhileFetchingThePlaylistDetails() {
         IdlingRegistry.getInstance().unregister(idlingResource)
+
+        Thread.sleep(3000)
+        navigateToPlaylistDetails(0)
 
         assertDisplayed(R.id.details_loader)
     }
 
-    private fun navigateToPlaylistDetails() {
+    @Test
+    fun hidesLoader() {
+        navigateToPlaylistDetails(0)
+
+        assertNotDisplayed(R.id.details_loader)
+    }
+
+    @Test
+    fun displaysErrorMessageWhenNetworkFails() {
+        navigateToPlaylistDetails(1)
+
+        assertDisplayed(R.string.generic_error)
+    }
+
+    @Test
+    fun hidesErrorMessage() {
+        navigateToPlaylistDetails(2)
+
+        Thread.sleep(3000)
+
+        assertNotExist(R.string.generic_error)
+    }
+
+    private fun navigateToPlaylistDetails(row: Int) {
         onView(
             CoreMatchers.allOf(
                 withId(R.id.playlist_image),
-                isDescendantOfA(nthChildOf(withId(R.id.playlists_list), 0))
+                isDescendantOfA(nthChildOf(withId(R.id.playlists_list), row))
             )
         ).perform(click())
     }

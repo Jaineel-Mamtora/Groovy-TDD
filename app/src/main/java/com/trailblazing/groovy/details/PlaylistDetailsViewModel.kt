@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class PlaylistDetailsViewModel(
@@ -17,6 +18,9 @@ class PlaylistDetailsViewModel(
         viewModelScope.launch {
             loader.postValue(true)
             service.fetchPlaylistDetails(id)
+                .onEach {
+                    loader.postValue(false)
+                }
                 .collect {
                     playlistDetails.postValue(it)
                 }

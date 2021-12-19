@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.trailblazing.groovy.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_playlist.*
@@ -54,7 +55,11 @@ class PlaylistDetailsFragment : Fragment() {
             if (playlistDetails.getOrNull() != null) {
                 setupUI(playlistDetails)
             } else {
-                TODO()
+                Snackbar.make(
+                    playlist_details_root,
+                    R.string.generic_error,
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
         }
     }
